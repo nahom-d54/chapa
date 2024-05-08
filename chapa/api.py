@@ -45,7 +45,8 @@ class Chapa:
     """
     Simple SDK for Chapa Payment gateway
     """
-
+    base_url = "https://api.chapa.co"
+    api_version="v1"
     def __init__(
         self,
         secret,
@@ -193,10 +194,12 @@ class Chapa:
         )
         return response
 
-    def verify(self, transaction: str, headers=None) -> dict | Response:
+    @classmethod
+    def verify(cls, transaction: str, headers=None) -> dict | Response:
         """Verify the transaction
 
         Args:
+            cls: Chapa class
             transaction (str): transaction id
 
         Response:
@@ -204,7 +207,7 @@ class Chapa:
             response(Response): response object of the response data return from the Chapa server.
         """
         response = self._construct_request(
-            url=f"{self.base_url}/{self.api_version}/transaction/verify/{transaction}",
+            url=f"{cls.base_url}/{cls.api_version}/transaction/verify/{transaction}",
             method="get",
             headers=headers,
         )
